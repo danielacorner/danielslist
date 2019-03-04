@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Daniel's List 📝",
+  "name": "Daniel's List: Kijiji / Craigslist / UsedOttawa aggregator",
   "icons": [
     {
       "src": "favicon.ico",
