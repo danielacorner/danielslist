@@ -34,11 +34,15 @@ const App = () => {
   const [searchTerms, setSearchTerms] = useState(null);
 
   useEffect(() => {
-    Axios.get('http://localhost:7777/scrape', {
-      params: {
-        url: `https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
+    Axios.get(
+      // use a cors proxy instead of a server https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
+      `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
+      {
+        // params: {
+        //   url: `https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
+        // },
       },
-    }).then(response => {
+    ).then(response => {
       const imageDivArray = response.data.split(`<div class="image"`);
       const imgArray = imageDivArray.map(s =>
         s.slice(s.indexOf('=') + 2, s.indexOf('" ')),
