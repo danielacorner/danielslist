@@ -1,13 +1,13 @@
 {
   "main.css": "/danielslist/static/css/main.e0c7ff32.chunk.css",
-  "main.js": "/danielslist/static/js/main.d8df91db.chunk.js",
-  "main.js.map": "/danielslist/static/js/main.d8df91db.chunk.js.map",
+  "main.js": "/danielslist/static/js/main.5f4c05d4.chunk.js",
+  "main.js.map": "/danielslist/static/js/main.5f4c05d4.chunk.js.map",
   "runtime~main.js": "/danielslist/static/js/runtime~main.d8552992.js",
   "runtime~main.js.map": "/danielslist/static/js/runtime~main.d8552992.js.map",
   "static/js/2.69fd6f4f.chunk.js": "/danielslist/static/js/2.69fd6f4f.chunk.js",
   "static/js/2.69fd6f4f.chunk.js.map": "/danielslist/static/js/2.69fd6f4f.chunk.js.map",
   "index.html": "/danielslist/index.html",
-  "precache-manifest.332091c345cecbbb115adf79ed3e7896.js": "/danielslist/precache-manifest.332091c345cecbbb115adf79ed3e7896.js",
+  "precache-manifest.8087a4da8630875971a38ffa6e33ca08.js": "/danielslist/precache-manifest.8087a4da8630875971a38ffa6e33ca08.js",
   "service-worker.js": "/danielslist/service-worker.js",
   "static/css/main.e0c7ff32.chunk.css.map": "/danielslist/static/css/main.e0c7ff32.chunk.css.map"
 }
