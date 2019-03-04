@@ -12,7 +12,8 @@ const ItemsStyles = styled.div`
   margin: 64px auto 0 auto;
   padding: 24px;
   display: grid;
-  grid-gap: 20px;
+  grid-column-gap: 20px;
+  grid-row-gap: 40px;
   grid-template-columns: repeat(auto-fit, minmax(var(--responsive-width), 1fr));
   justify-items: center;
   .item {
@@ -31,14 +32,22 @@ const ItemsStyles = styled.div`
       object-fit: cover;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
+      margin-bottom: -5px;
     }
     .title {
-      padding: 10px;
+      padding: 8px;
       font-family: system-ui;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
-      /* height: 80px; */
+      max-height: 80px;
       background: white;
+      line-height: 1.5em;
+      box-sizing: content-box;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
     }
   }
 `;
@@ -46,10 +55,12 @@ const ItemsStyles = styled.div`
 export default ({ items }) => (
   <ItemsStyles className="ItemsStyles">
     {items.map(item => (
-      <div className="item" key={item.title}>
-        <img src={item.image} alt={item.title} />
-        <div className="title">{item.title}</div>
-      </div>
+      <a href={item.url}>
+        <div className="item" key={item.title}>
+          <img src={item.image} alt={item.title} />
+          <div className="title">{item.title}</div>
+        </div>
+      </a>
     ))}
   </ItemsStyles>
 );

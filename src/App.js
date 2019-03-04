@@ -38,6 +38,7 @@ const App = () => {
       // use a cors proxy instead of a server https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
       `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
       {
+        // if using server.js, uncomment these lines:
         // params: {
         //   url: `https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
         // },
@@ -47,13 +48,17 @@ const App = () => {
       const imgArray = imageDivArray.map(s =>
         s.slice(s.indexOf('=') + 2, s.indexOf('" ')),
       );
+
       const titleArray = imageDivArray
         .map(s => s.slice(s.indexOf('alt="') + 5, s.indexOf('</div>')))
         .map(s => s.slice(0, s.indexOf('">')));
-      const urlArray = response.data
-        .split(`data-vip-url="`)
-        .map(s => s.slice(0, s.indexOf(` class="`)));
+
+      const urlArray = response.data.split(`data-vip-url="`).map(s => {
+        const query = s.slice(0, s.indexOf(`"`));
+        return `https://www.kijiji.ca${query}`;
+      });
       console.log(urlArray);
+
       setItems(
         imgArray.map((img, idx) => {
           return { image: img, title: titleArray[idx], url: urlArray[idx] };
