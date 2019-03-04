@@ -1,4 +1,6 @@
+import { navigate } from '@reach/router';
 import Axios from 'axios';
+import qs from 'query-string';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Appbar from './components/Appbar';
@@ -33,10 +35,23 @@ const App = () => {
 
   const [searchTerms, setSearchTerms] = useState(null);
 
+  const setSearchTermsAndQueryParams = terms => {
+    setSearchTerms(terms);
+    navigate(`/${qs.stringify(terms.split(' '))}`);
+    // setQueryParams(terms)
+  };
+
   useEffect(() => {
+    // if no search terms, try query string instead
+    const queryString = window.location.search;
+    console.log(qs.parse(queryString));
+    const kijijiCorsLink = `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${
+      searchTerms ? searchTerms : queryString
+    }/k0c10l9004`;
+
     Axios.get(
       // use a cors proxy instead of a server https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
-      `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
+      kijijiCorsLink,
       {
         // if using server.js, uncomment these lines:
         // params: {
@@ -57,7 +72,6 @@ const App = () => {
         const query = s.slice(0, s.indexOf(`"`));
         return `https://www.kijiji.ca${query}`;
       });
-      console.log(urlArray);
 
       setItems(
         imgArray.map((img, idx) => {
@@ -71,7 +85,7 @@ const App = () => {
     <>
       <AppStyles className="AppStyles">
         <div className="background" />
-        <Appbar setSearchTerms={setSearchTerms} />
+        <Appbar setSearchTerms={setSearchTermsAndQueryParams} />
         {/* 'awww nuggets' */}
         <ItemsGrid className="itemsGrid" items={items} />
       </AppStyles>
