@@ -134,7 +134,7 @@ class PrimarySearchAppBar extends React.Component {
                   this.setState({ inputValue: e.target.value });
                 }}
                 onKeyPress={ev => {
-                  if (ev.key === 'Enter') {
+                  if (ev.charCode === 13 || ev.key === 'Enter') {
                     ev.preventDefault();
                     setSearchTerms(this.state.inputValue);
                   }
