@@ -1,3 +1,4 @@
+import { CircularProgress } from '@material-ui/core';
 import { navigate } from '@reach/router';
 import Axios from 'axios';
 import qs from 'query-string';
@@ -5,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Appbar from './components/Appbar';
 import ItemsGrid from './components/ItemsGrid';
-import { CircularProgress } from '@material-ui/core';
 
 const AppStyles = styled.div`
   .background {
@@ -50,27 +50,23 @@ const App = () => {
     // setQueryParams(terms)
   };
 
-  useEffect(() => {
-    // if no search terms, try query string instead
-    const queryString = window.location.search;
-    console.log(qs.parse(queryString));
-    const kijijiCorsLink = `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${
+  // const [{ data, loading, error }, refetch] = useAxios(
+  //   'https://jsonplaceholder.typicode.com/todos/1'
+  // )
+
+  const getKijiji = queryString => {
+
+    const corsLink = `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${
       searchTerms ? searchTerms : queryString
     }/k0c10l9004`;
 
     Axios.get(
       // use a cors proxy instead of a server https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
-      kijijiCorsLink,
-      {
-        // if using server.js, uncomment these lines:
-        // params: {
-        //   url: `https://www.kijiji.ca/b-buy-sell/ontario/${searchTerms}/k0c10l9004`,
-        // },
-      }
+      corsLink,
     ).then(response => {
       const imageDivArray = response.data.split(`<div class="image"`);
       const imgArray = imageDivArray.map(s =>
-        s.slice(s.indexOf('=') + 2, s.indexOf('" '))
+        s.slice(s.indexOf('=') + 2, s.indexOf('" ')),
       );
 
       const titleArray = imageDivArray
@@ -85,16 +81,83 @@ const App = () => {
       setItems(
         imgArray.map((img, idx) => {
           return { image: img, title: titleArray[idx], url: urlArray[idx] };
-        })
+        }),
       );
     });
-  }, [searchTerms]);
+  };
+
+  const getCraigslist = queryString => {
+    const corsLink = `https://cors-anywhere.herokuapp.com/https://ottawa.craigslist.org/search/sss?sort=date&query=${
+      searchTerms ? searchTerms : queryString
+    }`;
+    Axios.get(corsLink).then(async response => {
+      await setTimeout(Promise.resolve, 2000);
+      const items = response.data
+        .slice(response.data.indexOf(`<li class="result-row"`))
+        .split(`<li class="result-row"`);
+
+      const info = items.map(item => {
+        const phase1 = item.slice(
+          item.indexOf(`hdrlnk">`) + 8,
+          item.indexOf(`<span class="result-meta"`),
+        );
+        return phase1.slice(0, phase1.indexOf(`</a>`));
+      });
+
+      const images = response.data
+        .slice(response.data.indexOf(`<ul class="rows"`))
+        .split(`<img alt class src="`);
+      console.log(images);
+      // const imageDivArray = response.data.split(`<div class="image"`);
+      // const imgArray = imageDivArray.map(s =>
+      //   s.slice(s.indexOf('=') + 2, s.indexOf('" ')),
+      // );
+
+      // const titleArray = imageDivArray
+      //   .map(s => s.slice(s.indexOf('alt="') + 5, s.indexOf('</div>')))
+      //   .map(s => s.slice(0, s.indexOf('">')));
+
+      // const urlArray = response.data.split(`data-vip-url="`).map(s => {
+      //   const query = s.slice(0, s.indexOf(`"`));
+      //   return `https://www.kijiji.ca${query}`;
+      // });
+
+      // setItems(
+      //   imgArray.map((img, idx) => {
+      //     return { image: img, title: titleArray[idx], url: urlArray[idx] };
+      //   }),
+      // );
+    });
+    console.log('getting craigslist');
+  };
+  const getUsedottawa = queryString => {
+    console.log('getting usedottawa');
+  };
+
+  const [site, setSite] = useState('kijiji');
+
+  useEffect(() => {
+    // if no search terms, try query string instead
+    const queryString = window.location.search;
+    setItems([]);
+    site === 'kijiji'
+      ? getKijiji(queryString)
+      : site === 'craigslist'
+      ? getCraigslist(queryString)
+      : site === 'usedottawa'
+      ? getUsedottawa(queryString)
+      : (() => {})();
+  }, [searchTerms, site]);
 
   return (
     <>
       <AppStyles className="AppStyles">
         <div className="background" />
-        <Appbar setSearchTerms={setSearchTermsAndQueryParams} />
+        <Appbar
+          setSearchTerms={setSearchTermsAndQueryParams}
+          site={site}
+          setSite={setSite}
+        />
         {/* 'awww nuggets' */}
         {items.length > 0 ? (
           <ItemsGrid className="itemsGrid" items={items} />
