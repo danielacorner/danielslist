@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import Tilt from 'react-vanilla-tilt';
+import styled from 'styled-components';
 
 const ItemsStyles = styled.div`
   --responsive-width: 140px;
@@ -23,7 +23,7 @@ const ItemsStyles = styled.div`
   justify-items: center;
   .tilt {
     transform-style: preserve-3d;
-    transform: perspective(1000px);
+    transform: perspective(10px);
     padding: 0 !important;
     width: var(--responsive-width) !important;
     background: none !important;
@@ -36,7 +36,8 @@ const ItemsStyles = styled.div`
       transform: scale(1) translate(0, -2px);
     }
     img {
-      transform: translateZ(20px);
+      z-index: 0;
+      transform: translateZ(50px);
       box-shadow: 0px 3px 11px 5px rgba(0, 0, 0, 0.2);
       width: 100%;
       max-height: var(--responsive-width);
@@ -68,13 +69,19 @@ const ItemsStyles = styled.div`
 
 export default ({ items }) => (
   <ItemsStyles className="ItemsStyles">
-    {items.map(item => (
-      <a href={item.url} key={item.title}>
-        <Tilt options={{ glare: true }} className="tilt">
-          <img src={item.image} alt={item.title} />
-          <div className="title">{item.title}</div>
-        </Tilt>
-      </a>
-    ))}
+    {items.map(item => {
+      if (item) {
+        return (
+          <a href={item.url} key={item.url}>
+            <Tilt options={{ glare: true }} className="tilt">
+              <img src={item.image} alt={item.title} />
+              <div className="title">{item.title}</div>
+            </Tilt>
+          </a>
+        );
+      } else {
+        return null;
+      }
+    })}
   </ItemsStyles>
 );

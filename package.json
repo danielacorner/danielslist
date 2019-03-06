@@ -10,6 +10,7 @@
     "axios": "^0.18.0",
     "axios-hooks": "^1.0.0",
     "cors": "^2.8.5",
+    "craigslist-searcher": "^1.0.4",
     "gh-pages": "^2.0.1",
     "kijiji-scraper": "^4.0.5",
     "nodemon": "^1.18.10",
