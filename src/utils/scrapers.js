@@ -107,12 +107,27 @@ export const getUsedottawa = ({ queryString, searchTerms, setItems }) => {
       .slice(response.data.indexOf(`<div class="article"`))
       .split(`<div class="article"`);
 
-    const linksArray = itemsArray.map(
+    const linksEndsArray = itemsArray.map(
       item =>
         `${item.slice(item.indexOf(`<a href="`) + 9, item.indexOf(`" ><`))}`,
     );
+    const linksArray = linksEndsArray.map(
+      end => `https://www.usedottawa.com${end}`,
+    );
+    const imgArray = itemsArray.map(item =>
+      item.slice(item.indexOf(`<img src="`) + 10, item.indexOf(`" alt="`)),
+    );
+    const titleArray = itemsArray.map(item =>
+      item.slice(
+        item.indexOf(`itemprop="description">`) + 23,
+        item.indexOf(`</p> <div class="property"`),
+      ),
+    );
+    const usedOttawaItems = imgArray.map((img, idx) => {
+      return { image: img, title: titleArray[idx], url: linksArray[idx] };
+    });
 
-    console.log(itemsArray, linksArray);
+    setItems(usedOttawaItems.slice(1));
   });
 
   console.log('getting usedottawa');
