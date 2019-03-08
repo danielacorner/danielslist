@@ -100,7 +100,7 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   render() {
-    const { classes, setSearchTerms } = this.props;
+    const { classes, setQuery } = this.props;
 
     return (
       <div className={classes.root}>
@@ -137,7 +137,7 @@ class PrimarySearchAppBar extends React.Component {
                 onKeyPress={ev => {
                   if (ev.charCode === 13 || ev.key === 'Enter') {
                     ev.preventDefault();
-                    setSearchTerms(this.state.inputValue);
+                    setQuery(this.state.inputValue);
                   }
                 }}
               />
@@ -145,7 +145,6 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
           </Toolbar>
         </AppBar>
-        {/* <ToggleGroup site={site} setSite={setSite} /> */}
       </div>
     );
   }

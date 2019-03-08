@@ -39,55 +39,33 @@ const AppStyles = styled.div`
 
 const App = () => {
   const [items, setItems] = useState([]);
+  const [query, setQuery] = useState(null);
 
-  const [searchTerms, setSearchTerms] = useState(null);
+  // TODO: filters
 
-  const setSearchTermsAndQueryParams = terms => {
-    setSearchTerms(terms);
-    // navigate(`/${qs.stringify(terms.split(' '))}`);
-    // setQueryParams(terms)
-  };
-
-  // const [{ data, loading, error }, refetch] = useAxios(
-  //   'https://jsonplaceholder.typicode.com/todos/1'
-  // )
-
-  const [site, setSite] = useState('kijiji');
-
-  const fetchItems = async () => {
-    // if no search terms, try query string instead
-    // const queryString = window.location.search;
-    // TODO: get Kijiji, then get UsedOttawa, then get Craigslist
+  const fetchData = async () => {
+    // get Kijiji, then UsedOttawa, then Craigslist
     setItems([]);
-    const kijijiItems = await getKijiji({
-      // queryString,
-      searchTerms,
-    });
+    const kijijiItems = await getKijiji(query);
     setItems(kijijiItems);
-    const usedOttawaItems = await getUsedottawa({
-      // queryString,
-      searchTerms,
-    });
+    const usedOttawaItems = await getUsedottawa(query);
     setItems([...kijijiItems, ...usedOttawaItems]);
-    const craigsListItems = await getCraigslist({
-      // queryString,
-      searchTerms,
-    });
+    const craigsListItems = await getCraigslist(query);
     setItems([...kijijiItems, ...usedOttawaItems, ...craigsListItems]);
   };
 
   useEffect(() => {
-    fetchItems();
-  }, [searchTerms]);
+    fetchData();
+  }, [query]);
 
   return (
     <>
       <AppStyles className="AppStyles">
         <div className="background" />
         <Appbar
-          setSearchTerms={setSearchTermsAndQueryParams}
-          site={site}
-          setSite={setSite}
+          setQuery={terms => {
+            setQuery(terms);
+          }}
         />
         {/* 'awww nuggets' */}
         {items.length > 0 ? (
