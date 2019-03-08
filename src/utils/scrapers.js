@@ -25,11 +25,16 @@ export const getKijiji = ({ queryString, searchTerms, setItems }) => {
     });
 
     const kijijiItems = imgArray.map((img, idx) => {
-      return { image: img, title: titleArray[idx], url: linksArray[idx] };
+      return {
+        image: img,
+        title: titleArray[idx],
+        url: linksArray[idx],
+        type: 'kijiji',
+      };
     });
     // first item is always an ad
     setItems(kijijiItems.slice(1));
-    console.log('kijiji results:', kijijiItems.slice(1));
+    console.log('Kijiji results:', kijijiItems.slice(1));
   });
 };
 
@@ -51,7 +56,6 @@ export const getCraigslist = ({ queryString, searchTerms, setItems }) => {
       ),
     );
 
-    setItems([]);
     Promise.all(
       linksArray.map(async (link, idx) => {
         try {
@@ -62,6 +66,7 @@ export const getCraigslist = ({ queryString, searchTerms, setItems }) => {
             image: detail.images ? detail.images[0] : null,
             title: detail.title,
             url: linksArray[idx],
+            type: 'craigslist',
           };
           return nextItem;
           // console.log({ items, nextItem });
@@ -76,8 +81,8 @@ export const getCraigslist = ({ queryString, searchTerms, setItems }) => {
         }
       }),
     ).then(detailsArray => {
-      console.log('craigslist results:', detailsArray);
       setItems(detailsArray);
+      console.log('Craigslist results:', detailsArray);
     });
     // {
     //   title: 'Item's title text,
@@ -124,10 +129,16 @@ export const getUsedottawa = ({ queryString, searchTerms, setItems }) => {
       ),
     );
     const usedOttawaItems = imgArray.map((img, idx) => {
-      return { image: img, title: titleArray[idx], url: linksArray[idx] };
+      return {
+        image: img,
+        title: titleArray[idx],
+        url: linksArray[idx],
+        type: 'usedottawa',
+      };
     });
 
     setItems(usedOttawaItems.slice(1));
+    console.log('Used Ottawa results:', usedOttawaItems.slice(1));
   });
 
   console.log('getting usedottawa');

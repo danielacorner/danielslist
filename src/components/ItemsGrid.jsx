@@ -1,6 +1,8 @@
 import React from 'react';
 import Tilt from 'react-vanilla-tilt';
 import styled from 'styled-components';
+import { KijijiLogo } from '../assets/KijijiLogo';
+import { UsedLogo } from '../assets/UsedLogo';
 
 const ItemsStyles = styled.div`
   --responsive-width: 140px;
@@ -24,6 +26,9 @@ const ItemsStyles = styled.div`
   .tilt {
     transform-style: preserve-3d;
     transform: perspective(10px);
+    * {
+      transform-style: preserve-3d;
+    }
     padding: 0 !important;
     width: var(--responsive-width) !important;
     background: none !important;
@@ -65,17 +70,85 @@ const ItemsStyles = styled.div`
       text-decoration: none;
     }
   }
+  .item {
+    position: relative;
+    .logo {
+      display: block;
+      /* padding: 5px 10px; */
+      position: absolute;
+      top: -24px;
+      left: -20px;
+      transform: rotate(-10deg) translateZ(70px);
+      .background {
+        height: 40px;
+        width: 70px;
+      }
+      .logoImg {
+        transform: translateZ(20px);
+        position: absolute;
+        padding: 5px;
+      }
+      &.kijiji {
+        width: 70px;
+      }
+      &.usedottawa {
+        .logoImg {
+          transform: translateZ(-25px);
+          width: 80px;
+          left: 4px;
+          top: 5px;
+        }
+        .background {
+          width: 85px;
+          height: 48px;
+        }
+      }
+      &.craigslist {
+        .background {
+          width: 120px;
+          height: 35px;
+        }
+        .logoImg {
+          width: 120px;
+          padding: 5px;
+          top: -5px;
+          text-align: center;
+        }
+        color: #042aee;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 22px;
+      }
+    }
+  }
 `;
 
 export default ({ items }) => (
-  <ItemsStyles className="ItemsStyles">
+  <ItemsStyles className={`ItemsStyles`}>
     {items.map(item => {
       if (item) {
         return (
-          <a href={item.url} key={item.url}>
+          <a href={item.url} key={item.url} className={`item`}>
             <Tilt options={{ glare: true }} className="tilt">
               <img src={item.image} alt={item.title} />
               <div className="title">{item.title}</div>
+              <div className={`logo ${item.type}`}>
+                {item.type === 'kijiji' ? (
+                  <>
+                    <div className="background" />
+                    <KijijiLogo className="logoImg" />
+                  </>
+                ) : item.type === 'usedottawa' ? (
+                  <>
+                    <div className="background" />
+                    <UsedLogo className="logoImg" />
+                  </>
+                ) : item.type === 'craigslist' ? (
+                  <>
+                    <div className="background" />
+                    <div className="craigslist logoImg">craigslist ☮</div>
+                  </>
+                ) : null}
+              </div>
             </Tilt>
           </a>
         );
