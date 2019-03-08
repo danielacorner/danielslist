@@ -8,11 +8,13 @@ const ItemsStyles = styled.div`
   --responsive-width: 140px;
   grid-column-gap: 10px;
   padding: 12px;
+  padding-top: 36px;
   grid-row-gap: 18px;
   @media (min-width: 700px) {
     --responsive-width: 175px;
     grid-column-gap: 20px;
     padding: 24px;
+    padding-top: 36px;
     grid-row-gap: 24px;
   }
   @media (min-width: 1000px) {
@@ -52,9 +54,12 @@ const ItemsStyles = styled.div`
       margin-bottom: -7px;
     }
     .title {
+      text-decoration: none;
       padding: 8px;
+      padding-top: 28px;
+      margin-top: -20px;
       opacity: 0.8;
-      font-family: system-ui;
+      font-family: 'Open Sans', sans-serif;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
       max-height: 80px;

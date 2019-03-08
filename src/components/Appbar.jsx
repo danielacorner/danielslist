@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ToggleGroup from './ToggleGroup';
+// import ToggleGroup from './ToggleGroup';
 
 const styles = theme => ({
   root: {
@@ -100,7 +100,7 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   render() {
-    const { classes, setSearchTerms, site, setSite } = this.props;
+    const { classes, setSearchTerms } = this.props;
 
     return (
       <div className={classes.root}>
@@ -145,7 +145,7 @@ class PrimarySearchAppBar extends React.Component {
             <div className={classes.grow} />
           </Toolbar>
         </AppBar>
-        <ToggleGroup site={site} setSite={setSite} />
+        {/* <ToggleGroup site={site} setSite={setSite} /> */}
       </div>
     );
   }
