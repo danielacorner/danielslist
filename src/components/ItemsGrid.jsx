@@ -132,7 +132,13 @@ export default ({ items }) => (
     {items.map(item => {
       if (item) {
         return (
-          <a href={item.url} key={item.url} className={`item`}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={item.url}
+            key={item.url}
+            className={`item`}
+          >
             <Tilt options={{ glare: true }} className="tilt">
               <img src={item.image} alt={item.title} />
               <div className="title">{item.title}</div>
