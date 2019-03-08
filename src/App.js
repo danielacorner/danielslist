@@ -35,7 +35,6 @@ const AppStyles = styled.div`
     display: grid;
     place-items: center center;
   }
-
 `;
 
 const App = () => {
@@ -44,7 +43,6 @@ const App = () => {
   const [searchTerms, setSearchTerms] = useState(null);
 
   const setSearchTermsAndQueryParams = terms => {
-    setItems([]);
     setSearchTerms(terms);
     // navigate(`/${qs.stringify(terms.split(' '))}`);
     // setQueryParams(terms)
@@ -56,25 +54,30 @@ const App = () => {
 
   const [site, setSite] = useState('kijiji');
 
-  useEffect(async () => {
+  const fetchItems = async () => {
     // if no search terms, try query string instead
-    const queryString = window.location.search;
+    // const queryString = window.location.search;
     // TODO: get Kijiji, then get UsedOttawa, then get Craigslist
+    setItems([]);
     const kijijiItems = await getKijiji({
-      queryString,
+      // queryString,
       searchTerms,
     });
     setItems(kijijiItems);
     const usedOttawaItems = await getUsedottawa({
-      queryString,
+      // queryString,
       searchTerms,
     });
     setItems([...kijijiItems, ...usedOttawaItems]);
     const craigsListItems = await getCraigslist({
-      queryString,
+      // queryString,
       searchTerms,
     });
     setItems([...kijijiItems, ...usedOttawaItems, ...craigsListItems]);
+  };
+
+  useEffect(() => {
+    fetchItems();
   }, [searchTerms]);
 
   return (

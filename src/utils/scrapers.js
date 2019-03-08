@@ -1,10 +1,10 @@
 import Axios from 'axios';
 import { detail as craigslistDetail } from 'craigslist-searcher';
 
-export const getKijiji = ({ queryString, searchTerms }) => {
+export const getKijiji = ({ /* queryString,  */ searchTerms }) => {
   return new Promise((resolve, reject) => {
     const corsLink = `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${
-      searchTerms ? searchTerms : queryString
+      searchTerms ? searchTerms : ''
     }/k0c10l9004`;
 
     Axios.get(
@@ -40,11 +40,11 @@ export const getKijiji = ({ queryString, searchTerms }) => {
   });
 };
 
-export const getCraigslist = ({ queryString, searchTerms }) => {
+export const getCraigslist = ({ /* queryString,  */ searchTerms }) => {
   return new Promise((resolve, reject) => {
     const corsLink = `https://cors-anywhere.herokuapp.com/https://ottawa.craigslist.org/search/sss?sort=date&query=${
       // TODO: use search terms properly
-      searchTerms ? searchTerms : queryString
+      searchTerms ? searchTerms : ''
     }`;
 
     Axios.get(corsLink).then(async response => {
@@ -106,11 +106,11 @@ export const getCraigslist = ({ queryString, searchTerms }) => {
   });
 };
 
-export const getUsedottawa = ({ queryString, searchTerms }) => {
+export const getUsedottawa = ({ /* queryString,  */ searchTerms }) => {
   return new Promise((resolve, reject) => {
     const corsLink = `https://cors-anywhere.herokuapp.com/https://www.usedottawa.com/classifieds/all?description=${
       // TODO: use search terms properly
-      searchTerms ? searchTerms : queryString
+      searchTerms ? searchTerms : ''
     }`;
     Axios.get(corsLink).then(async response => {
       const itemsArray = response.data
