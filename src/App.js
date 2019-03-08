@@ -1,11 +1,9 @@
 import { CircularProgress } from '@material-ui/core';
-import { navigate } from '@reach/router';
-import qs from 'query-string';
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import Appbar from './components/Appbar';
 import ItemsGrid from './components/ItemsGrid';
 import { getCraigslist, getKijiji, getUsedottawa } from './utils/scrapers';
-import styled from 'styled-components';
 
 const AppStyles = styled.div`
   .background {
@@ -37,6 +35,7 @@ const AppStyles = styled.div`
     display: grid;
     place-items: center center;
   }
+
 `;
 
 const App = () => {
@@ -47,7 +46,7 @@ const App = () => {
   const setSearchTermsAndQueryParams = terms => {
     setItems([]);
     setSearchTerms(terms);
-    navigate(`/${qs.stringify(terms.split(' '))}`);
+    // navigate(`/${qs.stringify(terms.split(' '))}`);
     // setQueryParams(terms)
   };
 
