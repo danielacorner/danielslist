@@ -2,6 +2,7 @@ import React from 'react';
 import Tilt from 'react-vanilla-tilt';
 import styled from 'styled-components';
 import { KijijiLogo } from '../assets/KijijiLogo';
+import { LetgoLogo } from '../assets/LetgoLogo';
 import { UsedLogo } from '../assets/UsedLogo';
 
 const ItemsStyles = styled.div`
@@ -79,7 +80,6 @@ const ItemsStyles = styled.div`
     position: relative;
     .logo {
       display: block;
-      /* padding: 5px 10px; */
       position: absolute;
       top: -24px;
       left: -20px;
@@ -109,19 +109,32 @@ const ItemsStyles = styled.div`
         }
       }
       &.craigslist {
-        .background {
-          width: 120px;
-          height: 35px;
-        }
         .logoImg {
           width: 120px;
           padding: 5px;
           top: -5px;
           text-align: center;
         }
+        .background {
+          width: 130px;
+          height: 35px;
+        }
         color: #042aee;
         font-family: 'Times New Roman', Times, serif;
         font-size: 22px;
+      }
+      &.letgo {
+        svg {
+          position: absolute;
+          transform: translateZ(20px);
+          width: 80px;
+          left: 3px;
+          top: 7px;
+        }
+        .background {
+          width: 84px;
+          height: 45px;
+        }
       }
     }
   }
@@ -141,6 +154,7 @@ export default ({ items }) => (
           >
             <Tilt options={{ glare: true }} className="tilt">
               <img src={item.image} alt={item.title} />
+              {/* TODO: convert special characters in title */}
               <div className="title">{item.title}</div>
               <div className={`logo ${item.type}`}>
                 {item.type === 'kijiji' ? (
@@ -157,6 +171,11 @@ export default ({ items }) => (
                   <>
                     <div className="background" />
                     <div className="craigslist logoImg">craigslist ☮</div>
+                  </>
+                ) : item.type === 'letgo' ? (
+                  <>
+                    <div className="background" />
+                    <LetgoLogo className="logoImg" />
                   </>
                 ) : null}
               </div>

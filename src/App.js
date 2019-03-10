@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Appbar from './components/Appbar';
 import ItemsGrid from './components/ItemsGrid';
-import { getCraigslist, getKijiji, getUsedottawa } from './utils/scrapers';
+import { getLetgo } from './utils/scrapers';
 
 const AppStyles = styled.div`
   .background {
@@ -46,12 +46,16 @@ const App = () => {
   const fetchData = async () => {
     // get Kijiji, then UsedOttawa, then Craigslist
     setItems([]);
-    const kijijiItems = await getKijiji(query);
-    setItems(kijijiItems);
-    const usedOttawaItems = await getUsedottawa(query);
-    setItems([...kijijiItems, ...usedOttawaItems]);
-    const craigsListItems = await getCraigslist(query);
-    setItems([...kijijiItems, ...usedOttawaItems, ...craigsListItems]);
+    // const kijijiItems = await getKijiji(query);
+    // setItems(kijijiItems);
+    // const usedOttawaItems = await getUsedottawa(query);
+    // setItems([...kijijiItems, ...usedOttawaItems]);
+    // const craigslistItems = await getCraigslist(query);
+    // setItems([...kijijiItems, ...usedOttawaItems, ...craigslistItems]);
+    const letgoItems = await getLetgo(query);
+    setItems([
+      /* ...kijijiItems, ...usedOttawaItems, ...craigslistItems, */ ...letgoItems,
+    ]);
   };
 
   useEffect(() => {

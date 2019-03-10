@@ -1,6 +1,10 @@
 import Axios from 'axios';
 import { detail as craigslistDetail } from 'craigslist-searcher';
 
+// TODO: if corsLink => 429 too many requests, try a different cors proxy
+// TODO: node server & front-end on heroku using npm-run-all
+// TODO: letgo ottawa https://ca.letgo.com/en?searchTerm=hutch
+
 export const getKijiji = query => {
   return new Promise((resolve, reject) => {
     const corsLink = `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${
@@ -11,7 +15,7 @@ export const getKijiji = query => {
       // use a cors proxy instead of a server https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
       corsLink,
     ).then(response => {
-      const imageDivArray = response.data.split(`<div class="image"`);
+      const imageDivArray = response.data.split(`<div class="image"`).slice(1);
       const imgArray = imageDivArray.map(s =>
         s.slice(s.indexOf('=') + 2, s.indexOf('" ')),
       );
@@ -34,8 +38,8 @@ export const getKijiji = query => {
         };
       });
       // first item is always an ad
-      console.log('Kijiji results:', kijijiItems.slice(1));
-      resolve(kijijiItems.slice(1));
+      console.log('Kijiji results:', kijijiItems);
+      resolve(kijijiItems);
     });
   });
 };
@@ -43,7 +47,6 @@ export const getKijiji = query => {
 export const getCraigslist = query => {
   return new Promise((resolve, reject) => {
     const corsLink = `https://cors-anywhere.herokuapp.com/https://ottawa.craigslist.org/search/sss?sort=date&query=${
-      // TODO: use search terms properly
       query ? query : ''
     }`;
 
@@ -102,13 +105,13 @@ export const getCraigslist = query => {
 export const getUsedottawa = query => {
   return new Promise((resolve, reject) => {
     const corsLink = `https://cors-anywhere.herokuapp.com/https://www.usedottawa.com/classifieds/all?description=${
-      // TODO: use search terms properly
       query ? query : ''
     }`;
     Axios.get(corsLink).then(async response => {
       const itemsArray = response.data
         .slice(response.data.indexOf(`<div class="article"`))
-        .split(`<div class="article"`);
+        .split(`<div class="article"`)
+        .slice(1);
 
       const linksEndsArray = itemsArray.map(
         item =>
@@ -135,10 +138,51 @@ export const getUsedottawa = query => {
         };
       });
 
-      console.log('Used Ottawa results:', usedOttawaItems.slice(1));
-      resolve(usedOttawaItems.slice(1));
+      console.log('Used Ottawa results:', usedOttawaItems);
+      resolve(usedOttawaItems);
     });
 
     console.log('getting usedottawa');
+  });
+};
+
+export const getLetgo = query => {
+  return new Promise((resolve, reject) => {
+    const corsLink = `https://cors-anywhere.herokuapp.com/https://ca.letgo.com/en?searchTerm=${
+      query ? query : ''
+    }`;
+    Axios.get(corsLink).then(async response => {
+      const itemsArray = response.data
+        .slice(response.data.indexOf(`FeedListstyles__FeedListContainer`))
+        .split(`FeedListstyles__FeedCardItem`)
+        .slice(2);
+
+      const linksArray = itemsArray.map(
+        item =>
+          `https://ca.letgo.com/en/i${item.slice(
+            item.indexOf(`<a href="`) + 9,
+            item.indexOf(`" title="`),
+          )}`,
+      );
+      const imgArray = itemsArray.map(item =>
+        item.slice(item.indexOf(`<img src="`) + 10, item.indexOf(`" alt="`)),
+      );
+      const titleArray = itemsArray.map(item =>
+        item.slice(item.indexOf(`" title="`) + 9, item.indexOf(`"><img src="`)),
+      );
+      const letgoItems = imgArray.map((img, idx) => {
+        return {
+          image: img,
+          title: titleArray[idx],
+          url: linksArray[idx],
+          type: 'letgo',
+        };
+      });
+
+      console.log('Letgo results:', letgoItems);
+      resolve(letgoItems);
+    });
+
+    console.log('getting letgo');
   });
 };
