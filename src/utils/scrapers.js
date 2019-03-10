@@ -159,7 +159,7 @@ export const getLetgo = query => {
 
       const linksArray = itemsArray.map(
         item =>
-          `https://ca.letgo.com/en/i${item.slice(
+          `https://ca.letgo.com${item.slice(
             item.indexOf(`<a href="`) + 9,
             item.indexOf(`" title="`),
           )}`,
