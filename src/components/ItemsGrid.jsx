@@ -41,10 +41,14 @@ const ItemsStyles = styled.div`
     transform: scale(0.98);
     cursor: pointer;
     &:hover {
-      transform: scale(1) translate(0, -2px);
+      img {
+        transform: scale(1.1) translate(0, -5px) translateZ(55px);
+      }
     }
     img {
-      z-index: 0;
+      z-index: 2;
+      border-radius: 4px;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transform: translateZ(50px);
       box-shadow: 0px 3px 11px 5px rgba(0, 0, 0, 0.2);
       width: 100%;
@@ -55,6 +59,7 @@ const ItemsStyles = styled.div`
       margin-bottom: -7px;
     }
     .title {
+      z-index: 1;
       text-decoration: none;
       padding: 8px;
       padding-top: 28px;
@@ -85,11 +90,13 @@ const ItemsStyles = styled.div`
       left: -20px;
       transform: rotate(-10deg) translateZ(70px);
       .background {
+        opacity: 0.65;
         height: 40px;
         width: 70px;
+        transform: perspective(200px) translateZ(10px);
       }
       .logoImg {
-        transform: translateZ(20px);
+        transform: translateZ(30px);
         position: absolute;
         padding: 5px;
       }
@@ -152,7 +159,7 @@ export default ({ items }) => (
             key={item.url}
             className={`item`}
           >
-            <Tilt options={{ glare: true }} className="tilt">
+            <Tilt className="tilt">
               <img src={item.image} alt={item.title} />
               {/* TODO: convert special characters in title */}
               <div className="title">{item.title}</div>
