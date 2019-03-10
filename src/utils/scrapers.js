@@ -5,9 +5,11 @@ import { detail as craigslistDetail } from 'craigslist-searcher';
 // TODO: node server & front-end on heroku using npm-run-all
 // TODO: letgo ottawa https://ca.letgo.com/en?searchTerm=hutch
 
+const corsProxy = `https://cors-proxy-danielslist.herokuapp.com/`;
+
 export const getKijiji = query => {
   return new Promise((resolve, reject) => {
-    const corsLink = `https://cors-anywhere.herokuapp.com/https://www.kijiji.ca/b-buy-sell/ontario/${
+    const corsLink = `${corsProxy}https://www.kijiji.ca/b-buy-sell/ontario/${
       query ? query : ''
     }/k0c10l9004`;
 
@@ -46,7 +48,7 @@ export const getKijiji = query => {
 
 export const getCraigslist = query => {
   return new Promise((resolve, reject) => {
-    const corsLink = `https://cors-anywhere.herokuapp.com/https://ottawa.craigslist.org/search/sss?sort=date&query=${
+    const corsLink = `${corsProxy}https://ottawa.craigslist.org/search/sss?sort=date&query=${
       query ? query : ''
     }`;
 
@@ -66,7 +68,7 @@ export const getCraigslist = query => {
         linksArray.map(async (link, idx) => {
           try {
             const detail = await craigslistDetail(
-              `https://cors-anywhere.herokuapp.com/` + (link || ''),
+              `${corsProxy}` + (link || ''),
             );
             const nextItem = {
               image: detail.images ? detail.images[0] : null,
@@ -104,7 +106,7 @@ export const getCraigslist = query => {
 
 export const getUsedottawa = query => {
   return new Promise((resolve, reject) => {
-    const corsLink = `https://cors-anywhere.herokuapp.com/https://www.usedottawa.com/classifieds/all?description=${
+    const corsLink = `${corsProxy}https://www.usedottawa.com/classifieds/all?description=${
       query ? query : ''
     }`;
     Axios.get(corsLink).then(async response => {
@@ -148,7 +150,7 @@ export const getUsedottawa = query => {
 
 export const getLetgo = query => {
   return new Promise((resolve, reject) => {
-    const corsLink = `https://cors-anywhere.herokuapp.com/https://ca.letgo.com/en?searchTerm=${
+    const corsLink = `${corsProxy}https://ca.letgo.com/en?searchTerm=${
       query ? query : ''
     }`;
     Axios.get(corsLink).then(async response => {
