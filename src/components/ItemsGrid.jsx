@@ -110,7 +110,7 @@ const ItemsStyles = styled.div`
       }
       &.craigslist {
         .logoImg {
-          width: 120px;
+          width: 130px;
           padding: 5px;
           top: -5px;
           text-align: center;

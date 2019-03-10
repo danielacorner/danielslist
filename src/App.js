@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Appbar from './components/Appbar';
 import ItemsGrid from './components/ItemsGrid';
-import { getLetgo } from './utils/scrapers';
+import { getCraigslist, getKijiji, getLetgo, getUsedottawa } from './utils/scrapers';
 
 const AppStyles = styled.div`
   .background {
@@ -44,17 +44,20 @@ const App = () => {
   // TODO: filters
 
   const fetchData = async () => {
-    // get Kijiji, then UsedOttawa, then Craigslist
+    // get Kijiji, then letgo, then UsedOttawa, then craigslist
     setItems([]);
-    // const kijijiItems = await getKijiji(query);
-    // setItems(kijijiItems);
-    // const usedOttawaItems = await getUsedottawa(query);
-    // setItems([...kijijiItems, ...usedOttawaItems]);
-    // const craigslistItems = await getCraigslist(query);
-    // setItems([...kijijiItems, ...usedOttawaItems, ...craigslistItems]);
+    const kijijiItems = await getKijiji(query);
+    setItems(kijijiItems);
     const letgoItems = await getLetgo(query);
+    setItems([...kijijiItems, ...letgoItems]);
+    const usedOttawaItems = await getUsedottawa(query);
+    setItems([...kijijiItems, ...letgoItems, ...usedOttawaItems]);
+    const craigslistItems = await getCraigslist(query);
     setItems([
-      /* ...kijijiItems, ...usedOttawaItems, ...craigslistItems, */ ...letgoItems,
+      ...kijijiItems,
+      ...letgoItems,
+      ...usedOttawaItems,
+      ...craigslistItems,
     ]);
   };
 
@@ -68,6 +71,7 @@ const App = () => {
         <div className="background" />
         <Appbar
           setQuery={terms => {
+            window.scrollTo(0,0);
             setQuery(terms);
           }}
         />
