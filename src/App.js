@@ -2,6 +2,7 @@ import { CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Appbar from './components/Appbar';
+import FilterDrawer from './components/FilterDrawer';
 import ItemsGrid from './components/ItemsGrid';
 import {
   getCraigslist,
@@ -46,6 +47,7 @@ const AppStyles = styled.div`
 const App = () => {
   const [items, setItems] = useState([]);
   const [query, setQuery] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   // TODO: filters
 
@@ -76,6 +78,7 @@ const App = () => {
       <AppStyles className="AppStyles">
         <div className="background" />
         <Appbar
+          setDrawerOpen={setDrawerOpen}
           setQuery={terms => {
             window.scrollTo(0, 0);
             setQuery(terms);
@@ -90,6 +93,7 @@ const App = () => {
           </div>
         )}
       </AppStyles>
+      <FilterDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
     </>
   );
 };

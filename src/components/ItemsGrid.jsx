@@ -133,14 +133,14 @@ const ItemsStyles = styled.div`
       &.letgo {
         svg {
           position: absolute;
-          transform: translateZ(20px);
+          transform: translateZ(40px);
           width: 80px;
-          left: 3px;
-          top: 7px;
+          left: 1px;
+          top: 3px;
         }
         .background {
-          width: 84px;
-          height: 45px;
+          width: 80px;
+          height: 40px;
         }
       }
     }

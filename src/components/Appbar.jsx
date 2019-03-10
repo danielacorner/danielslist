@@ -100,7 +100,7 @@ class PrimarySearchAppBar extends React.Component {
   };
 
   render() {
-    const { classes, setQuery } = this.props;
+    const { classes, setQuery, setDrawerOpen } = this.props;
 
     return (
       <div className={classes.root}>
@@ -110,6 +110,7 @@ class PrimarySearchAppBar extends React.Component {
               className={classes.menuButton}
               color="inherit"
               aria-label="Open drawer"
+              onClick={setDrawerOpen(true)}
             >
               <MenuIcon />
             </IconButton>
