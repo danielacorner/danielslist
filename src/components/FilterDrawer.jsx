@@ -1,10 +1,17 @@
-import { Divider, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  Divider,
+  IconButton,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import DollarIcon from '@material-ui/icons/AttachMoney';
+import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 
 const styles = {
@@ -26,7 +33,7 @@ class SwipeableTemporaryDrawer extends React.Component {
     console.log(event.target.name, event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
-  closeDrawer = (setDrawerOpen, setFilters) => {
+  submit = (setDrawerOpen, setFilters) => {
     const initialState = {
       priceFrom: null,
       priceTo: null,
@@ -44,16 +51,28 @@ class SwipeableTemporaryDrawer extends React.Component {
   };
 
   render() {
-    const { classes, setDrawerOpen, drawerOpen, setFilters } = this.props;
+    const {
+      classes,
+      setDrawerOpen,
+      drawerOpen,
+      setFilters,
+      filters,
+    } = this.props;
+    const { priceFrom, priceTo } = filters;
 
     const sideList = (
       <div className={classes.list}>
-        <List>
-          <ListItem>
-            <Typography variant="h5">Filters</Typography>
+        <List style={{ paddingTop: 0 }}>
+          <ListItem
+            style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}
+          >
+            <Typography variant="h5">Filters</Typography>{' '}
+            <IconButton onClick={() => setDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
           </ListItem>
           <Divider />
-          <ListItem>
+          <ListItem style={{ marginTop: 10 }}>
             <DollarIcon />
             <TextField
               style={{ marginTop: -15, width: 72 }}
@@ -61,6 +80,7 @@ class SwipeableTemporaryDrawer extends React.Component {
               pattern="[0-9]*"
               onChange={this.handleChange}
               name="priceFrom"
+              defaultValue={priceFrom}
             />
             <ListItemText variant="h6" primary={'—'} />
             <TextField
@@ -69,9 +89,18 @@ class SwipeableTemporaryDrawer extends React.Component {
               pattern="[0-9]*"
               onChange={this.handleChange}
               name="priceTo"
+              defaultValue={priceTo}
             />
           </ListItem>
         </List>
+        <Button
+          style={{ display: 'grid', margin: '10px auto 0 auto' }}
+          variant="outlined"
+          size="large"
+          onClick={() => this.submit(setDrawerOpen, setFilters)}
+        >
+          Submit
+        </Button>
       </div>
     );
 
@@ -79,7 +108,7 @@ class SwipeableTemporaryDrawer extends React.Component {
       <div>
         <SwipeableDrawer
           open={drawerOpen}
-          onClose={() => this.closeDrawer(setDrawerOpen, setFilters)}
+          onClose={() => this.submit(setDrawerOpen, setFilters)}
           onOpen={() => setDrawerOpen(true)}
         >
           <div
@@ -89,7 +118,7 @@ class SwipeableTemporaryDrawer extends React.Component {
             onKeyDown={event => {
               if (event.charCode === 13 || event.key === 'Enter') {
                 event.preventDefault();
-                this.closeDrawer(setDrawerOpen, setFilters);
+                this.submit(setDrawerOpen, setFilters);
               }
             }}
           >

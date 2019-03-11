@@ -34,10 +34,7 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
         : ''
     }`;
 
-    Axios.get(
-      // use a cors proxy instead of a server https://gist.github.com/jimmywarting/ac1be6ea0297c16c477e17f8fbe51347
-      corsLink,
-    )
+    Axios.get(corsLink)
       .then(response => {
         const imageDivArray = response.data
           .split(`<div class="image"`)
@@ -77,10 +74,92 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
   });
 };
 
+export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
+  return new Promise((resolve, reject) => {
+    const corsLink = `${proxy}https://www.usedottawa.com/classifieds/all?description=${
+      query ? query : ''
+    }${
+      filtersChanged(filters)
+        ? '?' +
+          Object.entries(filters)
+            .map(([filterName, value]) => {
+              if (filterName === 'priceFrom') {
+                return `&pricefrom=${value}`;
+              } else if (filterName === 'priceTo') {
+                return `&priceto=${value}`;
+              }
+            })
+            .join('')
+        : ''
+    }`;
+    // & pricefrom=0 & priceto=100
+    Axios.get(corsLink)
+      .then(async response => {
+        const itemsArray = response.data
+          .slice(response.data.indexOf(`<div class="article"`))
+          .split(`<div class="article"`)
+          .slice(1);
+
+        const linksEndsArray = itemsArray.map(
+          item =>
+            `${item.slice(
+              item.indexOf(`<a href="`) + 9,
+              item.indexOf(`" ><`),
+            )}`,
+        );
+        const linksArray = linksEndsArray.map(
+          end => `https://www.usedottawa.com${end}`,
+        );
+        const imgArray = itemsArray.map(item =>
+          item.slice(item.indexOf(`<img src="`) + 10, item.indexOf(`" alt="`)),
+        );
+        const titleArray = itemsArray.map(item =>
+          item.slice(
+            item.indexOf(`itemprop="description">`) + 23,
+            item.indexOf(`</p> <div class="property"`),
+          ),
+        );
+        const usedOttawaItems = imgArray.map((img, idx) => {
+          return {
+            image: img,
+            title: titleArray[idx],
+            url: linksArray[idx],
+            type: 'usedottawa',
+          };
+        });
+
+        console.log('Used Ottawa results:', usedOttawaItems);
+        resolve(usedOttawaItems);
+      })
+      .catch(error => {
+        console.warn(
+          'No items fetched...  switching to backup cors proxy',
+          error,
+        );
+        setProxy(proxyBackup);
+      });
+
+    console.log('getting usedottawa');
+  });
+};
+
 export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
   return new Promise((resolve, reject) => {
     const corsLink = `${proxy}https://ottawa.craigslist.org/search/sss?sort=date&query=${
       query ? query : ''
+    }${
+      filtersChanged(filters)
+        ? '?' +
+          Object.entries(filters)
+            .map(([filterName, value]) => {
+              if (filterName === 'priceFrom') {
+                return `&min_price=${value}`;
+              } else if (filterName === 'priceTo') {
+                return `&max_price=${value}`;
+              }
+            })
+            .join('')
+        : ''
     }`;
 
     Axios.get(corsLink)
@@ -141,65 +220,23 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
   });
 };
 
-export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
-  return new Promise((resolve, reject) => {
-    const corsLink = `${proxy}https://www.usedottawa.com/classifieds/all?description=${
-      query ? query : ''
-    }`;
-    Axios.get(corsLink)
-      .then(async response => {
-        const itemsArray = response.data
-          .slice(response.data.indexOf(`<div class="article"`))
-          .split(`<div class="article"`)
-          .slice(1);
-
-        const linksEndsArray = itemsArray.map(
-          item =>
-            `${item.slice(
-              item.indexOf(`<a href="`) + 9,
-              item.indexOf(`" ><`),
-            )}`,
-        );
-        const linksArray = linksEndsArray.map(
-          end => `https://www.usedottawa.com${end}`,
-        );
-        const imgArray = itemsArray.map(item =>
-          item.slice(item.indexOf(`<img src="`) + 10, item.indexOf(`" alt="`)),
-        );
-        const titleArray = itemsArray.map(item =>
-          item.slice(
-            item.indexOf(`itemprop="description">`) + 23,
-            item.indexOf(`</p> <div class="property"`),
-          ),
-        );
-        const usedOttawaItems = imgArray.map((img, idx) => {
-          return {
-            image: img,
-            title: titleArray[idx],
-            url: linksArray[idx],
-            type: 'usedottawa',
-          };
-        });
-
-        console.log('Used Ottawa results:', usedOttawaItems);
-        resolve(usedOttawaItems);
-      })
-      .catch(error => {
-        console.warn(
-          'No items fetched...  switching to backup cors proxy',
-          error,
-        );
-        setProxy(proxyBackup);
-      });
-
-    console.log('getting usedottawa');
-  });
-};
-
 export const getLetgo = ({ query, filters, proxy, setProxy }) => {
   return new Promise((resolve, reject) => {
-    const corsLink = `${proxy}https://ca.letgo.com/en${
-      query ? `?searchTerm=${query}` : ''
+    const corsLink = `${proxy}https://ca.letgo.com/en?${
+      query ? `searchTerm=${query}` : ''
+    }${
+      filtersChanged(filters)
+        ? '?' +
+          Object.entries(filters)
+            .map(([filterName, value]) => {
+              if (filterName === 'priceFrom') {
+                return `&price[min]=${value}`;
+              } else if (filterName === 'priceTo') {
+                return `&price[max]=${value}`;
+              }
+            })
+            .join('')
+        : ''
     }`;
     Axios.get(corsLink)
       .then(async response => {
