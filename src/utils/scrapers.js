@@ -239,7 +239,7 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
         const itemsArray = response.data
           .slice(response.data.indexOf(`FeedListstyles__FeedListContainer`))
           .split(`FeedListstyles__FeedCardItem`)
-          .slice(2);
+          ;
 
         const linksArray = itemsArray.map(
           item =>
@@ -267,7 +267,7 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
         });
 
         console.log('Letgo results:', letgoItems);
-        resolve(letgoItems);
+        resolve(letgoItems.slice(2));
       })
       .catch(error => {
         console.warn(
