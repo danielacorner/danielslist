@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
+import FilterIcon from '@material-ui/icons/FilterList';
 import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -112,7 +112,7 @@ class PrimarySearchAppBar extends React.Component {
               aria-label="Open drawer"
               onClick={() => setDrawerOpen(true)}
             >
-              <MenuIcon />
+              <FilterIcon />
             </IconButton>
             <Typography
               className={classes.title}
