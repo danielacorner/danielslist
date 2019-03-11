@@ -28,6 +28,8 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
                 return filters.priceFrom === null
                   ? `price=__${value}`
                   : `__${value}`;
+              } else {
+                return null;
               }
             })
             .join('')
@@ -60,7 +62,7 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
         });
         // first item is always an ad
         console.log('Kijiji results:', kijijiItems);
-        resolve(kijijiItems.slice(1));
+        return resolve(kijijiItems.slice(1));
       })
       .catch(error => {
         console.warn(
@@ -68,6 +70,7 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
           error,
         );
         setProxy(proxyBackup);
+        return getKijiji({ query, filters, proxy: proxyBackup, setProxy });
       });
   });
 };
@@ -85,6 +88,8 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
                 return `&pricefrom=${value}`;
               } else if (filterName === 'priceTo') {
                 return `&priceto=${value}`;
+              } else {
+                return null;
               }
             })
             .join('')
@@ -125,7 +130,7 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
         });
 
         console.log('Used Ottawa results:', usedOttawaItems);
-        resolve(usedOttawaItems.slice(1));
+        return resolve(usedOttawaItems.slice(1));
       })
       .catch(error => {
         console.warn(
@@ -133,6 +138,7 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
           error,
         );
         setProxy(proxyBackup);
+        return getUsedottawa({ query, filters, proxy: proxyBackup, setProxy });
       });
 
     console.log('getting usedottawa');
@@ -152,6 +158,8 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
                 return `&min_price=${value}`;
               } else if (filterName === 'priceTo') {
                 return `&max_price=${value}`;
+              } else {
+                return null;
               }
             })
             .join('')
@@ -188,7 +196,7 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
           }),
         ).then(craigslistItems => {
           console.log('Craigslist results:', craigslistItems);
-          resolve(craigslistItems);
+          return resolve(craigslistItems);
         });
         // {
         //   title: 'Item's title text,
@@ -210,6 +218,7 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
           error,
         );
         setProxy(proxyBackup);
+        return getCraigslist({ query, filters, proxy: proxyBackup, setProxy });
       });
 
     console.log('getting craigslist');
@@ -229,6 +238,8 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
                 return `&price[min]=${value}`;
               } else if (filterName === 'priceTo') {
                 return `&price[max]=${value}`;
+              } else {
+                return null;
               }
             })
             .join('')
@@ -265,7 +276,7 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
         });
 
         console.log('Letgo results:', letgoItems);
-        resolve(letgoItems.slice(2));
+        return resolve(letgoItems.slice(2));
       })
       .catch(error => {
         console.warn(
@@ -273,6 +284,7 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
           error,
         );
         setProxy(proxyBackup);
+        return getLetgo({ query, filters, proxy: proxyBackup, setProxy });
       });
 
     console.log('getting letgo');
