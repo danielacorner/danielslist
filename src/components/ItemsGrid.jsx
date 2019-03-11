@@ -69,7 +69,7 @@ const ItemsStyles = styled.div`
       border-bottom-right-radius: 4px;
       max-height: 80px;
       background: white;
-      line-height: 1.6em;
+      line-height: 1.65em;
       box-sizing: content-box;
       overflow: hidden;
       display: -webkit-box;
