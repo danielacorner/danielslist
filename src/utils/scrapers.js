@@ -238,9 +238,7 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
       .then(async response => {
         const itemsArray = response.data
           .slice(response.data.indexOf(`FeedListstyles__FeedListContainer`))
-          .split(`FeedListstyles__FeedCardItem`)
-          ;
-
+          .split(`FeedListstyles__FeedCardItem`);
         const linksArray = itemsArray.map(
           item =>
             `https://ca.letgo.com${item.slice(
