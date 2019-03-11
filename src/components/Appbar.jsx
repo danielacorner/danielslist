@@ -110,7 +110,7 @@ class PrimarySearchAppBar extends React.Component {
               className={classes.menuButton}
               color="inherit"
               aria-label="Open drawer"
-              onClick={setDrawerOpen(true)}
+              onClick={()=>setDrawerOpen(true)}
             >
               <MenuIcon />
             </IconButton>

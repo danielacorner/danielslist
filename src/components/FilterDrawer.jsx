@@ -44,17 +44,17 @@ class SwipeableTemporaryDrawer extends React.Component {
 
     return (
       <div>
-        <Button onClick={setDrawerOpen(true)}>Open Left</Button>
+        <Button onClick={() => setDrawerOpen(true)}>Open Left</Button>
         <SwipeableDrawer
           open={drawerOpen}
-          onClose={setDrawerOpen(false)}
-          onOpen={setDrawerOpen(true)}
+          onClose={() => setDrawerOpen(false)}
+          onOpen={() => setDrawerOpen(true)}
         >
           <div
             tabIndex={0}
             role="button"
-            onClick={setDrawerOpen(false)}
-            onKeyDown={setDrawerOpen(false)}
+            onClick={() => setDrawerOpen(false)}
+            onKeyDown={() => setDrawerOpen(false)}
           >
             {sideList}
           </div>
