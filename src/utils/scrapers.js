@@ -36,9 +36,7 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
 
     Axios.get(corsLink)
       .then(response => {
-        const imageDivArray = response.data
-          .split(`<div class="image"`)
-          .slice(1);
+        const imageDivArray = response.data.split(`<div class="image"`);
         const imgArray = imageDivArray.map(s =>
           s.slice(s.indexOf('=') + 2, s.indexOf('" ')),
         );
@@ -62,7 +60,7 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
         });
         // first item is always an ad
         console.log('Kijiji results:', kijijiItems);
-        resolve(kijijiItems);
+        resolve(kijijiItems.slice(1));
       })
       .catch(error => {
         console.warn(
@@ -97,9 +95,7 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
       .then(async response => {
         const itemsArray = response.data
           .slice(response.data.indexOf(`<div class="article"`))
-          .split(`<div class="article"`)
-          .slice(1);
-
+          .split(`<div class="article"`);
         const linksEndsArray = itemsArray.map(
           item =>
             `${item.slice(
@@ -129,7 +125,7 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
         });
 
         console.log('Used Ottawa results:', usedOttawaItems);
-        resolve(usedOttawaItems);
+        resolve(usedOttawaItems.slice(1));
       })
       .catch(error => {
         console.warn(
