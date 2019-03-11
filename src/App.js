@@ -45,22 +45,38 @@ const AppStyles = styled.div`
 `;
 
 const App = () => {
+  // static
+  const corsProxy = `https://cors-proxy-danielslist.herokuapp.com/`;
+
+  // state
   const [items, setItems] = useState([]);
   const [query, setQuery] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [filters, setFilters] = useState({});
+  const [proxy, setProxy] = useState(corsProxy);
 
   // TODO: filters
 
   const fetchData = async () => {
     // get Kijiji, then letgo, then UsedOttawa, then craigslist
     setItems([]);
-    const kijijiItems = await getKijiji(query);
+    const kijijiItems = await getKijiji({ query, filters, proxy, setProxy });
     setItems(kijijiItems);
-    const letgoItems = await getLetgo(query);
+    const letgoItems = await getLetgo({ query, filters, proxy, setProxy });
     setItems([...kijijiItems, ...letgoItems]);
-    const usedOttawaItems = await getUsedottawa(query);
+    const usedOttawaItems = await getUsedottawa({
+      query,
+      filters,
+      proxy,
+      setProxy,
+    });
     setItems([...kijijiItems, ...letgoItems, ...usedOttawaItems]);
-    const craigslistItems = await getCraigslist(query);
+    const craigslistItems = await getCraigslist({
+      query,
+      filters,
+      proxy,
+      setProxy,
+    });
     setItems([
       ...kijijiItems,
       ...letgoItems,
@@ -71,7 +87,7 @@ const App = () => {
 
   useEffect(() => {
     fetchData();
-  }, [query]);
+  }, [query, filters, proxy]);
 
   return (
     <>
@@ -93,7 +109,12 @@ const App = () => {
           </div>
         )}
       </AppStyles>
-      <FilterDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+      <FilterDrawer
+        filters={filters}
+        setFilters={setFilters}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+      />
     </>
   );
 };

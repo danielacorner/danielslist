@@ -64,7 +64,6 @@ const ItemsStyles = styled.div`
       padding: 8px;
       padding-top: 28px;
       margin-top: -20px;
-      opacity: 0.8;
       font-family: 'Open Sans', sans-serif;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
@@ -90,7 +89,7 @@ const ItemsStyles = styled.div`
       left: -20px;
       transform: rotate(-10deg) translateZ(70px);
       .background {
-        opacity: 0.65;
+        opacity: 0.8;
         height: 40px;
         width: 70px;
         transform: perspective(200px) translateZ(10px);
