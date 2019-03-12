@@ -73,10 +73,14 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
         );
         if (proxy === proxy1) {
           setProxy(proxy2);
-          return getKijiji({ query, filters, proxy: proxy2, setProxy });
+          return getKijiji({ query, filters, proxy: proxy2, setProxy }).then(
+            items => resolve(items),
+          );
         } else if (proxy === proxy2) {
           setProxy(proxy3);
-          return getKijiji({ query, filters, proxy: proxy3, setProxy });
+          return getKijiji({ query, filters, proxy: proxy3, setProxy }).then(
+            items => resolve(items),
+          );
         }
       });
   });
@@ -151,7 +155,7 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
             filters,
             proxy: proxy2,
             setProxy,
-          });
+          }).then(items => resolve(items));
         } else if (proxy === proxy2) {
           setProxy(proxy3);
           return getUsedottawa({
@@ -159,7 +163,7 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
             filters,
             proxy: proxy3,
             setProxy,
-          });
+          }).then(items => resolve(items));
         }
       });
 
@@ -246,7 +250,7 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
             filters,
             proxy: proxy2,
             setProxy,
-          });
+          }).then(items => resolve(items));
         } else if (proxy === proxy2) {
           setProxy(proxy3);
           return getCraigslist({
@@ -254,7 +258,7 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
             filters,
             proxy: proxy3,
             setProxy,
-          });
+          }).then(items => resolve(items));
         }
       });
 
@@ -295,7 +299,7 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
             )}`,
         );
         const imgArray = itemsArray.map(item =>
-          item.slice(item.indexOf(`<img src="`) + 10, item.indexOf(`" alt="`)),
+          item.slice(item.indexOf(`src="`) + 5, item.indexOf(`" data-test="`)),
         );
         const titleArray = itemsArray.map(item =>
           item.slice(
@@ -322,15 +326,20 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
         );
         if (proxy === proxy1) {
           setProxy(proxy2);
-          return getLetgo({ query, filters, proxy: proxy2, setProxy });
+          return getLetgo({ query, filters, proxy: proxy2, setProxy }).then(
+            items => {
+              console.log({ items });
+              resolve(items);
+            },
+          );
         } else if (proxy === proxy2) {
           setProxy(proxy3);
-          return getCraigslist({
+          return getLetgo({
             query,
             filters,
             proxy: proxy3,
             setProxy,
-          });
+          }).then(items => resolve(items));
         }
       });
 
