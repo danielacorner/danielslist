@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/danielslist/static/js/runtime~main.7e381ba2.js"
   },
   {
-    "revision": "17e0abf6c49684a6c9ad",
-    "url": "/danielslist/static/js/main.17e0abf6.chunk.js"
+    "revision": "e2758832ea0898f13ca4",
+    "url": "/danielslist/static/js/main.e2758832.chunk.js"
   },
   {
     "revision": "73261780414e704b7fc6",
     "url": "/danielslist/static/js/2.73261780.chunk.js"
   },
   {
-    "revision": "17e0abf6c49684a6c9ad",
+    "revision": "e2758832ea0898f13ca4",
     "url": "/danielslist/static/css/main.4f6945f9.chunk.css"
   },
   {
-    "revision": "90fddc5eca2c3c527f8724c8367547d5",
+    "revision": "e0f64938c70f5e2ec465d3adc5be31ed",
     "url": "/danielslist/index.html"
   }
 ];
