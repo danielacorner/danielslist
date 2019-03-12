@@ -72,10 +72,13 @@ const App = () => {
   const fetchData = async () => {
     // get Kijiji, then letgo, then UsedOttawa, then craigslist
     setItems([]);
+
     const kijijiItems = await getKijiji({ query, filters, proxy, setProxy });
     setItems(kijijiItems);
+
     const letgoItems = await getLetgo({ query, filters, proxy, setProxy });
     setItems([...kijijiItems, ...letgoItems]);
+
     const usedOttawaItems = await getUsedottawa({
       query,
       filters,
@@ -83,6 +86,7 @@ const App = () => {
       setProxy,
     });
     setItems([...kijijiItems, ...letgoItems, ...usedOttawaItems]);
+
     const craigslistItems = await getCraigslist({
       query,
       filters,

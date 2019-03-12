@@ -1,7 +1,9 @@
 import Axios from 'axios';
 import { detail as craigslistDetail } from 'craigslist-searcher';
 
-const proxyBackup = `https://cors-anywhere.herokuapp.com/`;
+const proxy1 = `https://cors-proxy-danielslist.herokuapp.com/`;
+const proxy2 = `https://cors-proxy-danielslist-2.herokuapp.com/`;
+const proxy3 = `https://cors-anywhere.herokuapp.com/`;
 
 const filtersChanged = filters => {
   let filtersChanged = false;
@@ -69,8 +71,13 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
           'No items fetched...  switching to backup cors proxy',
           error,
         );
-        setProxy(proxyBackup);
-        return getKijiji({ query, filters, proxy: proxyBackup, setProxy });
+        if (proxy === proxy1) {
+          setProxy(proxy2);
+          return getKijiji({ query, filters, proxy: proxy2, setProxy });
+        } else if (proxy === proxy2) {
+          setProxy(proxy3);
+          return getKijiji({ query, filters, proxy: proxy3, setProxy });
+        }
       });
   });
 };
@@ -137,8 +144,23 @@ export const getUsedottawa = ({ query, filters, proxy, setProxy }) => {
           'No items fetched...  switching to backup cors proxy',
           error,
         );
-        setProxy(proxyBackup);
-        return getUsedottawa({ query, filters, proxy: proxyBackup, setProxy });
+        if (proxy === proxy1) {
+          setProxy(proxy2);
+          return getUsedottawa({
+            query,
+            filters,
+            proxy: proxy2,
+            setProxy,
+          });
+        } else if (proxy === proxy2) {
+          setProxy(proxy3);
+          return getUsedottawa({
+            query,
+            filters,
+            proxy: proxy3,
+            setProxy,
+          });
+        }
       });
 
     console.log('getting usedottawa');
@@ -217,8 +239,23 @@ export const getCraigslist = ({ query, filters, proxy, setProxy }) => {
           'No items fetched...  switching to backup cors proxy',
           error,
         );
-        setProxy(proxyBackup);
-        return getCraigslist({ query, filters, proxy: proxyBackup, setProxy });
+        if (proxy === proxy1) {
+          setProxy(proxy2);
+          return getCraigslist({
+            query,
+            filters,
+            proxy: proxy2,
+            setProxy,
+          });
+        } else if (proxy === proxy2) {
+          setProxy(proxy3);
+          return getCraigslist({
+            query,
+            filters,
+            proxy: proxy3,
+            setProxy,
+          });
+        }
       });
 
     console.log('getting craigslist');
@@ -283,8 +320,18 @@ export const getLetgo = ({ query, filters, proxy, setProxy }) => {
           'No items fetched...  switching to backup cors proxy',
           error,
         );
-        setProxy(proxyBackup);
-        return getLetgo({ query, filters, proxy: proxyBackup, setProxy });
+        if (proxy === proxy1) {
+          setProxy(proxy2);
+          return getLetgo({ query, filters, proxy: proxy2, setProxy });
+        } else if (proxy === proxy2) {
+          setProxy(proxy3);
+          return getCraigslist({
+            query,
+            filters,
+            proxy: proxy3,
+            setProxy,
+          });
+        }
       });
 
     console.log('getting letgo');
