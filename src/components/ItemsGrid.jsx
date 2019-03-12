@@ -58,7 +58,7 @@ const ItemsStyles = styled.div`
       border-top-right-radius: 4px;
       margin-bottom: -7px;
     }
-    .title {
+    .info {
       z-index: 1;
       text-decoration: none;
       padding: 8px;
@@ -67,17 +67,25 @@ const ItemsStyles = styled.div`
       font-family: 'Open Sans', sans-serif;
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
-      max-height: 80px;
+      max-height: 100px;
       background: white;
-      line-height: 1.65em;
       box-sizing: content-box;
       overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
-      text-overflow: ellipsis;
       color: rgba(0, 0, 0, 0.9);
       text-decoration: none;
+      .datePriceGrid {
+        font-size: 0.7em;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        justify-items: self-end;
+      }
+      .title {
+        line-height: 1.65em;
+        text-overflow: ellipsis;
+      }
     }
   }
   .item {
@@ -160,8 +168,13 @@ export default ({ items }) => (
           >
             <Tilt className="tilt">
               <img src={item.image} alt={item.title} />
-              {/* TODO: convert special characters in title */}
-              <div className="title">{item.title}</div>
+              <div className="info">
+                <div className="datePriceGrid">
+                  <div className="date">{item.date}</div>
+                  <div className="price">{item.price}</div>
+                </div>
+                <div className="title">{item.title}</div>
+              </div>
               <div className={`logo ${item.type}`}>
                 {item.type === 'kijiji' ? (
                   <>

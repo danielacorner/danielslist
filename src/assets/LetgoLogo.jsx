@@ -4,7 +4,7 @@ export const LetgoLogo = () => (
   <svg
     width="65"
     height="42"
-    class="Headerstyle__LogoStyled-sc-87znhf-1 jaGAjz"
+    className="Headerstyle__LogoStyled-sc-87znhf-1 jaGAjz"
     viewBox="0 0 65 42"
     xmlns="http://www.w3.org/2000/svg"
   >

@@ -54,11 +54,36 @@ export const getKijiji = ({ query, filters, proxy, setProxy }) => {
           return `https://www.kijiji.ca${query}`;
         });
 
+        const infoContainersArray = response.data.split(
+          `<div class="info-container">`,
+        );
+
+        const datesArray = infoContainersArray
+          .map(s =>
+            s.slice(
+              s.indexOf(`class="date-posted"`) + 20,
+              s.indexOf(`</span>`),
+            ),
+          )
+          .map(d => (d[0] === ' ' ? null : d));
+
+        const pricesArray = infoContainersArray
+          .map(s =>
+            s.slice(
+              s.indexOf(`class="price"`) + 13,
+              s.indexOf(`<div class="title">`),
+            ),
+          )
+          .map(s => s.slice(s.indexOf(`$`), s.indexOf(`</div>`)))
+          .map(s => s.slice(0, s.indexOf('.')));
+
         const kijijiItems = imgArray.map((img, idx) => {
           return {
             image: img,
             title: titleArray[idx],
             url: linksArray[idx],
+            date: datesArray[idx],
+            price: pricesArray[idx],
             type: 'kijiji',
           };
         });
